@@ -11,9 +11,11 @@ struct MenuButton: View {
     @Binding var showLocationSearchBarView: Bool //everytime we instantiate
     var body: some View {
         Button {
-            showLocationSearchBarView.toggle()
+            withAnimation(.linear) {
+                showLocationSearchBarView.toggle()
+            }
         } label: {
-            Image(systemName: "line.3.horizontal")
+            Image(systemName: showLocationSearchBarView ? "arrow.left" : "line.3.horizontal")
                 .font(.title)
                 .foregroundColor(.gray)
                 .padding()

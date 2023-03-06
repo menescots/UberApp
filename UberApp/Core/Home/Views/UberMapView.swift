@@ -11,6 +11,8 @@ struct UberMapViewRepresentable: UIViewRepresentable {  //adding mapview to swif
     let mapView = MKMapView()
     let locationManager = LocationManager()
     
+    @EnvironmentObject var locationViewModel: LocationSearchViewModel // we created enviromentObj to use one instance in our source code
+    
     func makeUIView(context: Context) -> some UIView { //making mapview on view
         mapView.delegate = context.coordinator //
         mapView.isRotateEnabled = false
@@ -21,6 +23,9 @@ struct UberMapViewRepresentable: UIViewRepresentable {  //adding mapview to swif
     }
     
     func updateUIView(_ uiView: UIViewType, context: Context) {
+        if let selectedLocation = locationViewModel.selectedLocationCoordinate {
+            print("Selected location in mapView: \(selectedLocation)")
+        }
         
     }
     

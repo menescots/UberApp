@@ -17,12 +17,12 @@ struct HomeView: View {
             
             
                 if showLocationSearchView {
-                    LocationSearchViewActivated()
+                    LocationSearchViewActivated(showLocationSearchView: $showLocationSearchView)
                 } else {
                 LocationSearchViewBar()
                         .padding(.top, 72)
                         .onTapGesture {
-                            showLocationSearchView.toggle()
+                                showLocationSearchView.toggle()
                         }
                 }
             MenuButton(showLocationSearchBarView: $showLocationSearchView)
