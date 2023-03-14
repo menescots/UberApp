@@ -24,7 +24,6 @@ struct LocationSearchViewBar: View {
         .background(
             Rectangle()
             .fill(.white))
-        .cornerRadius(14)
         .shadow(color: .black, radius: 14)
         
     }

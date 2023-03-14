@@ -29,14 +29,16 @@ class LocationSearchViewModel: NSObject, ObservableObject {
     
     func selectLocation(_ location: MKLocalSearchCompletion) {
         locationSearch(forLocalSearchCompletion: location) { response, error in
-            if error != nil {
-                print("Cannot get coordinates")
+            if let error = error {
+                print("Cannot get coordinates \(error.localizedDescription)")
                 return
             }
+            
             guard let item = response?.mapItems.first else { return }
+            
             let coordinate = item.placemark.coordinate //after searching gives coordinates
             self.selectedLocationCoordinate = coordinate
-            print(coordinate)
+            print("Location coordinates found: \(coordinate)")
         }
     }
     

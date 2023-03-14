@@ -33,13 +33,11 @@ struct LocationSearchViewActivated: View {
                         .frame(height: 37)
                         .background(Color(.systemGray5))
                         .padding(.trailing)
-                        .cornerRadius(14)
                     
                     TextField("Where to?", text: $viewModel.queryFragment)
                         .frame(height: 37)
                         .background(Color(.systemGray4))
                         .padding(.trailing)
-                        .cornerRadius(14)
                 }
             }.padding(.horizontal)
                 .padding(.top, 60)
