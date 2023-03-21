@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LocationSearchViewBar: View {
+struct HomeViewLocationSearchViewBar: View {
     var body: some View {
         HStack {
             Circle()
@@ -31,6 +31,6 @@ struct LocationSearchViewBar: View {
 
 struct LocationSearch_Previews: PreviewProvider {
     static var previews: some View {
-        LocationSearchViewBar()
+        HomeViewLocationSearchViewBar()
     }
 }

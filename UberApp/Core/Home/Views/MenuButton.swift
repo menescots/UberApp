@@ -8,14 +8,16 @@
 import SwiftUI
 
 struct MenuButton: View {
-    @Binding var showLocationSearchBarView: Bool //everytime we instantiate
+    @Binding var mapState: MapViewState
+    //everytime we instantiate
+    
     var body: some View {
         Button {
             withAnimation(.linear) {
-                showLocationSearchBarView.toggle()
+                actionForState(state: mapState)
             }
         } label: {
-            Image(systemName: showLocationSearchBarView ? "arrow.left" : "line.3.horizontal")
+            Image(systemName: imageNameForState(state: mapState))
                 .font(.title)
                 .foregroundColor(.gray)
                 .padding()
@@ -24,12 +26,33 @@ struct MenuButton: View {
                 .shadow(color: .black, radius: 6)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-
+    }
+    
+    func actionForState(state: MapViewState) {
+        switch state {
+        case .noInput:
+            print("No input")
+        case .searchingForLocation:
+            mapState = .noInput
+        case .locationSelected:
+            mapState = .noInput
+        }
+    }
+    
+    func imageNameForState(state: MapViewState) -> String {
+        switch state {
+        case .noInput:
+            return "line.3.horizontal"
+        case .searchingForLocation:
+            return "arrow.left"
+        case .locationSelected:
+            return "arrow.left"
+        }
     }
 }
 
 struct MenuButton_Previews: PreviewProvider {
     static var previews: some View {
-        MenuButton(showLocationSearchBarView: .constant(true))
+        MenuButton(mapState: .constant(.noInput))
     }
 }
