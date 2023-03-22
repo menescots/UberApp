@@ -8,11 +8,10 @@
 import SwiftUI
 import MapKit
 struct UberMapViewRepresentable: UIViewRepresentable {  //adding mapview to swift ui
-    
     let mapView = MKMapView()
-    let locationManager = LocationManager()
-    @Binding var mapState: MapViewState
+    let locationManager = LocationManager.shared
     
+    @Binding var mapState: MapViewState
     @EnvironmentObject var locationViewModel: LocationSearchViewModel // we created enviromentObj to use one instance in our source code
     
     func makeUIView(context: Context) -> some UIView { //making mapview on view
@@ -36,6 +35,7 @@ struct UberMapViewRepresentable: UIViewRepresentable {  //adding mapview to swif
                 context.coordinator.addAndSelectAnnotation(withCoordinae: selectedLocation)
                 context.coordinator.configurePolyline(withDestinationCoordinate: selectedLocation)
             }
+            
         }
     }
     
@@ -69,19 +69,17 @@ extension UberMapViewRepresentable {
         
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
             let over = MKPolylineRenderer(overlay: overlay)
-            over.strokeColor = .systemRed
+            over.strokeColor = .systemPurple
             over.lineWidth = 5
             return over
         }
         
         func addAndSelectAnnotation(withCoordinae coordinate: CLLocationCoordinate2D) {
             parent.mapView.removeAnnotations(parent.mapView.annotations) // removin prevoius annotation before adding next on
-            let annotation = MKPointAnnotation()
+            let annotation = MKPointAnnotation() 
             annotation.coordinate = coordinate
             parent.mapView.addAnnotation(annotation)
             parent.mapView.selectAnnotation(annotation, animated: true)
-            
-            parent.mapView.showAnnotations(parent.mapView.annotations, animated: true) // show region after adding annotation
         }
         
         func getDestinationRoute(from userLocation: CLLocationCoordinate2D, to destinationLocation: CLLocationCoordinate2D, completion: @escaping (MKRoute) -> Void) {
@@ -107,6 +105,12 @@ extension UberMapViewRepresentable {
             
             getDestinationRoute(from: userLocationCoordinate, to: coordinate) { route in
                 self.parent.mapView.addOverlay(route.polyline)
+                let rect = self.parent.mapView.mapRectThatFits(route.polyline.boundingMapRect,
+                                                               edgePadding: .init(top: 64,
+                                                                                  left: 34,
+                                                                                  bottom: 500,
+                                                                                  right: 32))
+                self.parent.mapView.setRegion(MKCoordinateRegion(rect), animated: true)
             }
         }
         

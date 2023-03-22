@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct RideRequestView: View {
+    @State private var selectedRideType: RideType = .uberX
+    @EnvironmentObject var locationViewModel: LocationSearchViewModel
     var body: some View {
         VStack {
             Capsule()
                 .foregroundColor(Color(.systemGray4))
                 .frame(width: 48, height: 6)
+                .padding(.top, 5)
             HStack {
                 VStack(){
                     Circle()
@@ -65,24 +68,31 @@ struct RideRequestView: View {
                
             ScrollView(.horizontal) {
                 HStack(spacing: 10) {
-                    ForEach(0 ..< 3, id: \.self) { _ in
+                    ForEach(RideType.allCases) { rideType in
                         
                         VStack(alignment: .leading) {
-                            Image("uber-x")
+                            Image(rideType.imageName)
                                 .resizable()
                                 .scaledToFit()
                             
-                            VStack(spacing: 4) {
-                                Text("UberX")
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(rideType.description)
                                     .font(.system(size: 14, weight: .semibold))
-                                Text("244$")
+                                Text(locationViewModel.calculateRidePrice(forType: rideType).toCurrency())
                                     .font(.system(size: 14, weight: .semibold))
                             }
                             .padding(7)
                         }
                         .frame(width: 120, height: 140)
-                        .background(Color(.systemGray4))
+                        .foregroundColor(Color(rideType == selectedRideType ? .white : .black))
+                        .background(Color(rideType == selectedRideType ? .systemPurple : .systemGray4))
+                        .scaleEffect(rideType == selectedRideType ? 1.1 : 1.0)
                         .cornerRadius(13)
+                        .onTapGesture {
+                            withAnimation(.spring()) {
+                                selectedRideType = rideType
+                            }
+                        }
                     }
                 }
             }
@@ -121,13 +131,15 @@ struct RideRequestView: View {
                 Text("Confirm ride")
                     .frame(width: UIScreen.main.bounds.width - 32, height: 50)
                     .fontWeight(.bold)
-                    .background(Color(.systemBlue))
+                    .background(Color(.systemPurple))
                     .foregroundColor(Color(.white))
                     .cornerRadius(10)
             }
 
         }
+        .padding(.bottom, 25)
         .background(.white)
+        .cornerRadius(20)
     }
 }
 
