@@ -61,7 +61,7 @@ struct LocationSearchViewActivated: View {
                 }
             }
         }
-        .background(.white)
+        .background(Color.theme.backgroundColor)
     }
 }
 

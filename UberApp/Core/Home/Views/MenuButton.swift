@@ -35,9 +35,9 @@ struct MenuButton: View {
             print("No input")
         case .searchingForLocation:
             mapState = .noInput
-        case .locationSelected:
+        case .locationSelected, .polylineAdded:
             mapState = .noInput
-            viewModel.selectedLocationCoordinate = nil
+            viewModel.selectedUberLocation = nil
         }
     }
     
@@ -45,10 +45,10 @@ struct MenuButton: View {
         switch state {
         case .noInput:
             return "line.3.horizontal"
-        case .searchingForLocation:
+        case .searchingForLocation, .polylineAdded, .locationSelected:
             return "arrow.left"
-        case .locationSelected:
-            return "arrow.left"
+        default:
+            return "line.3.horizontal"
         }
     }
 }

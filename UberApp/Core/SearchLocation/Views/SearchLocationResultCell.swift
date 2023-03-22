@@ -14,7 +14,7 @@ struct SearchLocationResultCell: View {
         HStack {
             Image(systemName: "mappin.circle.fill")
                 .resizable()
-                .foregroundColor(Color(.systemMint))
+                .foregroundColor(Color(.systemPurple))
                 .tint(.white)
                 .frame(width: 40,height: 40)
             VStack(alignment: .leading, spacing: 3) {
